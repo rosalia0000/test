@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scrapbook Kenangan</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #ffe4ec, #fdf6f0, #e8f4ff);
+    overflow-x: hidden;
+}
+
+/* Layar password */
+.lock-screen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #ffd6e7, #fdf6f0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.lock-box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.lock-box h2 {
+    color: #ff7aa2;
+}
+
+.lock-box input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.lock-box button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #ff7aa2;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* Halaman buku */
+.page {
+    max-width: 700px;
+    margin: 60px auto;
+    background: #fffafc;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    position: relative;
+    display: none;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(30px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* Stiker */
+.sticker {
+    position: absolute;
+    font-size: 28px;
+    opacity: 0.8;
+}
+
+.sticker.top-left { top: -15px; left: -15px; }
+.sticker.top-right { top: -15px; right: -15px; }
+.sticker.bottom-left { bottom: -15px; left: -15px; }
+.sticker.bottom-right { bottom: -15px; right: -15px; }
+
+h1 {
+    text-align: center;
+    color: #ff7aa2;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #555;
+    text-align: center;
+}
+
+.photo {
+    display: block;
+    width: 80%;
+    max-width: 300px;
+    margin: 25px auto;
+    border: 10px solid white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transform: rotate(-2deg);
+}
+
+/* Kenangan */
+.memory {
+    margin-top: 80px;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.memory h2 {
+    color: #ff7aa2;
+}
+
+.memory-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+.memory-card {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    width: 220px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: 0.6s;
+}
+
+.memory-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.memory-card.show {
+    transform: scale(1);
+    opacity: 1;
+}
+</style>
+</head>
+<body>
+
+<!-- Layar password -->
+<div class="lock-screen" id="lockScreen">
+    <div class="lock-box">
+        <h2>Adalah Pokoknya</h2>
+        <p>passwordnya dulu cantik😋🫵</p>
+        <input type="password" id="passwordInput" placeholder="Password">
+        <br>
+        <button onclick="checkPassword()">Buka</button>
+    </div>
+</div>
+
+<!-- Halaman utama -->
+<div class="page" id="mainPage">
+    <div class="sticker top-left">🌸</div>
+    <div class="sticker top-right">💖</div>
+    <div class="sticker bottom-left">🌷</div>
+    <div class="sticker bottom-right">✨</div>
+
+    <h1>Untuk Kea</h1>
+
+    <img class="photo" src="sampul.png" alt="Kenangan">
+
+    <p>
+        Hey kamu🫵
+        <br> Iya kamu yang baca😃
+        <br> Sehat-sehat terus ya, jangan sampai sakit🤧
+        <br> Dari temenmu yang "adalah pokoknya"😋
+        <br> Lop u ma bestie🫵💗
+    </p>
+</div>
+
+<!-- Kenangan -->
+<div class="memory" id="memorySection" style="display:none;">
+    <h2>Rosblox</h2>
+
+    <div class="memory-grid">
+        <div class="memory-card">
+            <img src="foto1.png">
+            <p>Sore🌄</p>
+        </div>
+
+        <div class="memory-card">
+            <img src="foto2.png">
+            <p>Malam🌃</p>
+        </div>
+
+        <div class="memory-card">
+            <img src="foto3.png">
+            <p>Pagi🌅</p>
+        </div>
+    </div>
+</div>
+
+<script>
+const PASSWORD = "2004";
+
+function checkPassword() {
+    const input = document.getElementById("passwordInput").value;
+
+    if (input === PASSWORD) {
+        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById("mainPage").style.display = "block";
+        document.getElementById("memorySection").style.display = "block";
+    } else {
+        alert("Password salah!");
+    }
+}
+
+// animasi scroll
+const cards = document.querySelectorAll(".memory-card");
+
+window.addEventListener("scroll", () => {
+    const trigger = window.innerHeight * 0.85;
+
+    cards.forEach(card => {
+        const top = card.getBoundingClientRect().top;
+        if (top < trigger) {
+            card.classList.add("show");
+        }
+    });
+});
+</script>
+
+</body>
+</html>
